@@ -1,0 +1,13 @@
+workspace = { members = ["linked_list"] }
+[package]
+name = "euh"
+version = "0.1.0"
+edition = "2021"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+linked_list = { path = "linked_list" }
+
+[profile.release]
+opt-level = "z"
