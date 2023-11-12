@@ -39,6 +39,16 @@ impl<T> Index<usize> for LinkedList<T>  {
     }
 }
 
+impl<'a, T> IntoIterator for &'a LinkedList<T> {
+    type Item = &'a T;
+    type IntoIter = LinkedListIter<'a, T>;
+    fn into_iter(self) -> Self::IntoIter {
+        LinkedListIter {
+            current: &self.head,
+        }
+    }
+}
+
 impl<T> IndexMut<usize> for LinkedList<T>  {
     fn index_mut(&mut self, index: usize) -> &mut Self::Output {
         let mut current = &mut self.head;
@@ -53,7 +63,23 @@ impl<T> IndexMut<usize> for LinkedList<T>  {
     }
 }
 
-impl<T: std::fmt::Debug + 'static + PartialEq + Ord + Copy> LinkedList<T> {
+impl<T: std::fmt::Debug + Clone + Ord + PartialEq + Copy, const N: usize> From<&[T; N]> for LinkedList<T> {
+    fn from(s: &[T; N]) -> LinkedList<T> {
+        Self::from(s.as_slice())
+    }
+}
+
+impl<T:std::fmt::Debug + Clone + Ord + PartialEq + Copy> From<&[T]> for LinkedList<T> {
+    fn from(value: &[T]) -> Self {
+        let mut list = LinkedList::new();
+        for item in value {
+            list.push(*item);
+        }
+        list
+    }
+}
+
+impl<T: std::fmt::Debug + Ord + Copy> LinkedList<T> {
     pub fn new() -> Self {
         LinkedList { head: None, size: 0 }
     }

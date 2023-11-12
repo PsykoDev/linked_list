@@ -3,7 +3,16 @@ use linked_list::LinkedList;
 
 
 fn main() {
-    let mut list = LinkedList::from_iter(vec![8, 5, 1]);
+    let mut x = LinkedList::new();
+    x.push(1);
+    x.push(2);
+    x.push(3);
+    x.push(4);
+    x.push(5);
+
+    let mut list = LinkedList::from_iter(x.into_iter());
+
+    let mut list2 = LinkedList::from(&[1, 2, 3, 4, 5]);
 
     list.print_memory_layout();
     println!();
